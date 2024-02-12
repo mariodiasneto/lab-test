@@ -17,7 +17,7 @@ resource "aws_subnet" "my_subnet" {
 
 # Create a security group
 resource "aws_security_group" "sggroup" {
-  name        = "my-security-group"
+  name        = "sggroup"
   description = "Allow HTTP inbound traffic"
 
   vpc_id = aws_vpc.my_vpc.id
