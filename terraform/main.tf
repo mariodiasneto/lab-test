@@ -31,7 +31,7 @@ resource "aws_security_group" "sggroup" {
 }
 
 # Launch an EC2 instance
-resource "aws_instance" "my_ec2_instance" {
+resource "aws_instance" "myec2" {
   ami             = "ami-0e731c8a588258d0d" # Set your desired AMI ID
   instance_type   = "t2.micro" # Set your desired instance type
   subnet_id       = aws_subnet.my_subnet.id
