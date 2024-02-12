@@ -10,7 +10,7 @@ resource "aws_vpc" "lab_teste_vpc" {
 
 # Create a subnet within the VPC
 resource "aws_subnet" "lab_teste_subnet" {
-  vpc_id            = aws_vpc.my_vpc.id
+  vpc_id            = aws_vpc.lab_teste_vpc.id
   cidr_block        = "10.0.1.0/24" # Define your subnet's CIDR block
   availability_zone = "us-east-1a" # Set your desired availability zone
 }
@@ -20,7 +20,7 @@ resource "aws_security_group" "my_security_group" {
   name        = "my-security-group"
   description = "Allow HTTP inbound traffic"
 
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id = aws_vpc.lab_teste_vpc.id
 
   ingress {
     from_port   = 80
@@ -31,14 +31,14 @@ resource "aws_security_group" "my_security_group" {
 }
 
 # Launch an EC2 instance
-resource "aws_instance" "my_ec2_instance" {
+resource "aws_instance" "lab-teste-devops" {
   ami             = "ami-0c55b159cbfafe1f0" # Set your desired AMI ID
   instance_type   = "t2.micro" # Set your desired instance type
   subnet_id       = aws_subnet.my_subnet.id
   security_groups = [aws_security_group.my_security_group.name]
 
   tags = {
-    Name = "MyEC2Instance"
+    Name = "lab-teste-devops"
   }
 
   # Provision Nginx on the EC2 instance
