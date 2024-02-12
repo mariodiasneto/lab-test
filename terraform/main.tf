@@ -1,6 +1,6 @@
 provider "aws" {
   profile = "default"
-  region  = "us-east-2"
+  region  = "us-east-1"
 }
 
 resource "aws_vpc" "some_custom_vpc" {
@@ -108,24 +108,4 @@ resource "aws_instance" "web_instance" {
   tags = {
     "Name" : "Kanye"
   }
-}
-
-# Launch an EC2 instance
-resource "aws_instance" "myec2" {
-  ami             = "ami-0e731c8a588258d0d" # Set your desired AMI ID
-  instance_type   = "t2.micro" # Set your desired instance type
-  subnet_id       = aws_subnet.my_subnet.id
-  security_groups = aws_security_group.sggroup
-
-  tags = {
-    Name = "MyEC2Instance"
-  }
-
-  # Provision Nginx on the EC2 instance
-  user_data = <<-EOF
-              #!/bin/bash
-              yum install nginx -y
-              systemctl start nginx
-              systemctl enable nginx
-              EOF
 }
