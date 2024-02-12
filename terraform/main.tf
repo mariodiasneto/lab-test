@@ -1,0 +1,51 @@
+# Configure the AWS provider
+provider "aws" {
+  region = "us-east-1" # Set your desired AWS region
+}
+
+# Create a VPC
+resource "aws_vpc" "lab_teste_vpc" {
+  cidr_block = "10.0.0.0/16" # Define your VPC's CIDR block
+}
+
+# Create a subnet within the VPC
+resource "aws_subnet" "lab_teste_subnet" {
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.1.0/24" # Define your subnet's CIDR block
+  availability_zone = "us-east-1a" # Set your desired availability zone
+}
+
+# Create a security group
+resource "aws_security_group" "my_security_group" {
+  name        = "my-security-group"
+  description = "Allow HTTP inbound traffic"
+
+  vpc_id = aws_vpc.my_vpc.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# Launch an EC2 instance
+resource "aws_instance" "my_ec2_instance" {
+  ami             = "ami-0c55b159cbfafe1f0" # Set your desired AMI ID
+  instance_type   = "t2.micro" # Set your desired instance type
+  subnet_id       = aws_subnet.my_subnet.id
+  security_groups = [aws_security_group.my_security_group.name]
+
+  tags = {
+    Name = "MyEC2Instance"
+  }
+
+  # Provision Nginx on the EC2 instance
+  user_data = <<-EOF
+              #!/bin/bash
+              yum install nginx -y
+              systemctl start nginx
+              systemctl enable nginx
+              EOF
+}
