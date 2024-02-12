@@ -34,7 +34,7 @@ resource "aws_security_group" "my_security_group" {
 resource "aws_instance" "lab-teste-devops" {
   ami             = "ami-0c55b159cbfafe1f0" # Set your desired AMI ID
   instance_type   = "t2.micro" # Set your desired instance type
-  subnet_id       = aws_subnet.my_subnet.id
+  subnet_id       = aws_subnet.lab_teste_subnet.id
   security_groups = [aws_security_group.my_security_group.name]
 
   tags = {
